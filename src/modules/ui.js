@@ -30,27 +30,26 @@ export function renderWeather(data, locationName) {
 }
 
 function renderForecast(dailyData) {
-  forecastContainer.innerHTML = ''; // Clear old forecast
-
-  // dailyData.time is an array of dates. We loop through all 7 days.
-  // Inside renderForecast(dailyData) loop:
+  forecastContainer.innerHTML = ''; 
 
     dailyData.time.forEach((date, index) => {
     const dayName = new Date(date).toLocaleDateString('en-US', { weekday: 'short', timeZone: 'UTC' });
     const code = dailyData.weathercode[index];
 
-    // 1. Get the Raw Celsius values
     const maxTempC = dailyData.temperature_2m_max[index];
     const minTempC = dailyData.temperature_2m_min[index];
-        
-    // 2. Convert them (naming them displayHigh/displayLow to match your HTML below)
+    
     const displayHigh = currentUnit === 'C' ? maxTempC : (maxTempC * 9/5) + 32;
     const displayLow = currentUnit === 'C' ? minTempC : (minTempC * 9/5) + 32;
+
+    const tempForMeter = currentUnit === 'F' ? displayHigh : (displayHigh * 9/5) + 32;
+
+    let barWidth = ((tempForMeter + 25) / 150) * 100;
+    barWidth = Math.max(1, Math.min(barWidth, 100)); 
 
     const dayElement = document.createElement('div');
     dayElement.classList.add('forecast-day');
 
-    // 3. Now the names in ${} will match your variables above
     dayElement.innerHTML = `
         <div class="forecast-day-content">
             <span class="day-name">${dayName}</span>
@@ -60,6 +59,9 @@ function renderForecast(dailyData) {
                 <span class="slash">/</span>
                 <span class="low">${Math.round(displayLow)}°</span>
             </div>
+        </div>
+        <div class="temp-meter-container">
+            <div class="temp-meter-bar" style="width: ${barWidth}%;"></div>
         </div>
     `;
     forecastContainer.appendChild(dayElement);
