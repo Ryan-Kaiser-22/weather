@@ -21,8 +21,22 @@ export async function getCoordinates(cityName) {
 }
 
 export async function getWeatherData(lat, lon) {
-  const response = await fetch(
-    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`
-  );
-  return await response.json();
+  try {
+    const response = await fetch(
+      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=auto`
+    );
+    if (!response.ok) throw new Error("Weather fetch failed");
+    return await response.json();
+  } catch (error) {
+    console.error("Weather data error:", error);
+    return null;
+  }
+}
+
+export function saveLastCity(cityName) {
+  localStorage.setItem('lastWeatherCity', cityName);
+}
+
+export function getLastCity() {
+  return localStorage.getItem('lastWeatherCity');
 }

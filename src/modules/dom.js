@@ -1,5 +1,5 @@
 // src/modules/dom.js
-
+export const forecastContainer = document.querySelector('.forecast-container');
 export const unitToggleBtn = document.querySelector('#unit-toggle');
 export const searchForm = document.querySelector('#search-form');
 export const searchInput = document.querySelector('#city-search');

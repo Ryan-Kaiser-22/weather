@@ -3,8 +3,11 @@
   --card-bg: #ffffff;
   --accent-color: #3498db;
   --text-color: #2c3e50;
+  --border-color: #edf2f7;
+  --secondary-text: #718096;
 }
 
+/* Base Layout */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: var(--primary-bg);
@@ -22,6 +25,7 @@ header {
   margin-bottom: 30px;
 }
 
+/* Search Bar */
 #search-form {
   display: flex;
   gap: 10px;
@@ -48,6 +52,7 @@ button#submit-btn:hover {
   background-color: #2980b9;
 }
 
+/* Main Weather Card */
 .weather-card {
   background: var(--card-bg);
   padding: 30px;
@@ -65,29 +70,86 @@ button#submit-btn:hover {
   margin: 10px 0;
 }
 
-/* Utilities */
-.hidden {
-  display: none;
-}
-
-#loading-spinner {
-  font-style: italic;
-  color: #7f8c8d;
-  margin-top: 15px;
-}
-
 #unit-toggle {
   background: none;
   border: 1px solid var(--accent-color);
   color: var(--accent-color);
-  padding: 5px 10px;
+  padding: 5px 15px;
   border-radius: 20px;
   font-size: 0.8rem;
   cursor: pointer;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  transition: all 0.2s ease;
 }
 
 #unit-toggle:hover {
   background: var(--accent-color);
   color: white;
+}
+
+/* Forecast Container (Vertical Stack) */
+.forecast-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 25px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 20px;
+  width: 100%;
+}
+
+.forecast-day {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 12px 16px;
+  transition: transform 0.2s ease;
+}
+
+.forecast-day:hover {
+  background: #f8fafc;
+  transform: scale(1.02);
+}
+
+.forecast-day-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Forecast Detail Styling */
+.day-name {
+  font-weight: 600;
+  width: 50px;
+  text-align: left;
+}
+
+.day-desc {
+  flex-grow: 1;
+  text-align: left;
+  margin-left: 15px;
+  color: var(--secondary-text);
+  font-size: 0.85rem;
+  text-transform: capitalize;
+}
+
+.day-temp {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  min-width: 90px;
+  justify-content: flex-end;
+}
+
+.high { font-weight: 700; color: var(--text-color); }
+.low { color: var(--secondary-text); }
+.slash { margin: 0 4px; color: #cbd5e0; font-weight: 300; }
+
+/* Utilities */
+.hidden { display: none; }
+
+#loading-spinner {
+  font-style: italic;
+  color: var(--secondary-text);
+  margin-top: 15px;
 }
