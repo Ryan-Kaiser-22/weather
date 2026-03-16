@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeatherBang</title>
+</head>
+<body>
+
+    <header>
+        <h1>WeatherBang</h1>
+        <form id="search-form">
+            <input type="text" id="city-search" placeholder="Enter city name..." required>
+            <button type="submit" id="submit-btn">Search</button>
+        </form>
+    </header>
+
+    <main id="content">
+        <div class="weather-card hidden">
+            <h2 class="city-name"></h2>
+            <div class="weather-info">
+                <span class="temperature"></span>
+                <button id="unit-toggle">Switch to °F</button> <p class="description"></p>
+                <p class="description"></p>
+            </div>
+            <div id="loading-spinner" class="hidden">Loading...</div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Data provided by Opecoden-Meteo</p>
+    </footer>
+
+</body>
+</html>
