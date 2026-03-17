@@ -166,30 +166,26 @@ button#submit-btn:hover {
 
 .temp-meter-container {
   width: 100%;
-  height: 4px;
-  background-color: #eee; /* The "track" of the meter */
-  border-radius: 2px;
+  height: 6px; 
+  background-color: rgba(238, 238, 238, 0.5); 
+  border-radius: 3px;
   margin-top: 10px;
+  position: relative; 
   overflow: hidden;
 }
 
 .temp-meter-bar {
   height: 100%;
-  transition: width 0.5s ease-in-out; /* Removed background-color transition */
+  transition: width 0.5s ease-in-out; 
   border-radius: 2px;
-  
-  /* The "Full Spectrum" Gradient */
   background: linear-gradient(
     to right, 
-    #3498db 0%,    /* Cold Blue */
-    #87ceeb 25%,   /* Light Blue */
-    #f1c40f 50%,   /* Yellow */
-    #e67e22 75%,   /* Orange */
-    #c0392b 100%   /* Hot Red */
+    #3498db 0%,   
+    #87ceeb 25%,   
+    #f8f55b 50%,  
+    #e68122 75%,   
+    #680d03 100%  
   );
-  
-  /* This ensures the gradient is always "fixed" to the full width of the card */
-  /* so 50% width always looks yellow, rather than a squished blue-to-red */
   background-size: 400px 100%; 
 }
 
@@ -197,11 +193,17 @@ button#submit-btn:hover {
 .low { color: var(--secondary-text); }
 .slash { margin: 0 4px; color: #cbd5e0; font-weight: 300; }
 
-/* Utilities */
 .hidden { display: none; }
 
 #loading-spinner {
   font-style: italic;
   color: var(--secondary-text);
   margin-top: 15px;
+}
+
+.weather-icon {
+  width: 50px; /* or your preferred size */
+  height: 50px;
+  border-radius: 8px; /* Your CSS rounding */
+  object-fit: cover;
 }

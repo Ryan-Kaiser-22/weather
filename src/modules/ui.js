@@ -1,5 +1,12 @@
 // src/modules/ui.js
 import { cityNameDisplay, tempDisplay, descriptionDisplay, weatherCard, unitToggleBtn, forecastContainer } from './dom.js';
+import clearIcon from '../assets/images/clear.png';
+import cloudyIcon from '../assets/images/cloudy.png';
+import fogIcon from '../assets/images/fog.png';
+import drizzleIcon from '../assets/images/drizzle.png';
+import rainIcon from '../assets/images/rain.png';
+import snowIcon from '../assets/images/snow.png';
+import thunderIcon from '../assets/images/thunderstorm.png';
 
 const loader = document.querySelector('#loading-spinner');
 
@@ -32,7 +39,7 @@ export function renderWeather(data, locationName) {
 function renderForecast(dailyData) {
   forecastContainer.innerHTML = ''; 
 
-    dailyData.time.forEach((date, index) => {
+  dailyData.time.forEach((date, index) => {
     const dayName = new Date(date).toLocaleDateString('en-US', { weekday: 'short', timeZone: 'UTC' });
     const code = dailyData.weathercode[index];
 
@@ -47,10 +54,15 @@ function renderForecast(dailyData) {
     let barWidth = ((tempForMeter + 25) / 150) * 100;
     barWidth = Math.max(1, Math.min(barWidth, 100)); 
 
+    // Get the category name and build the image path
+    const category = getWeatherCategory(code);
+    const iconPath = getWeatherIcon(code);
+
     const dayElement = document.createElement('div');
     dayElement.classList.add('forecast-day');
 
     dayElement.innerHTML = `
+        <img src="${iconPath}" alt="${category}" class="weather-icon">
         <div class="forecast-day-content">
             <span class="day-name">${dayName}</span>
             <span class="day-desc">${getWeatherDescription(code)}</span>
@@ -65,7 +77,18 @@ function renderForecast(dailyData) {
         </div>
     `;
     forecastContainer.appendChild(dayElement);
-});
+  });
+}
+
+function getWeatherIcon(code) {
+  if (code === 0) return clearIcon;
+  if (code >= 1 && code <= 3) return cloudyIcon;
+  if (code === 45 || code === 48) return fogIcon;
+  if (code >= 51 && code <= 55) return drizzleIcon;
+  if (code >= 61 && code <= 65 || code >= 80 && code <= 82) return rainIcon;
+  if (code >= 71 && code <= 77) return snowIcon;
+  if (code >= 95) return thunderIcon;
+  return cloudyIcon; // Fallback
 }
 
 export function toggleUnits(data) { // Pass the weather data in here
@@ -115,4 +138,15 @@ function getWeatherDescription(code) {
     95: 'Thunderstorm',
   };
   return codes[code] || 'Cloudy';
+}
+
+function getWeatherCategory(code) {
+  if (code === 0) return 'clear';
+  if (code >= 1 && code <= 3) return 'cloudy';
+  if (code === 45 || code === 48) return 'fog';
+  if (code >= 51 && code <= 55) return 'drizzle';
+  if (code >= 61 && code <= 65 || code >= 80 && code <= 82) return 'rain';
+  if (code >= 71 && code <= 77) return 'snow';
+  if (code >= 95) return 'thunderstorm';
+  return 'cloudy'; // Fallback
 }
