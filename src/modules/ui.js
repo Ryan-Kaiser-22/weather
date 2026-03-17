@@ -23,15 +23,19 @@ let currentUnit = 'F';
 let currentTempC = 0; 
 
 export function renderWeather(data, locationName) {
-  // Store the temp in Celsius (Open-Meteo's default unless you changed logic.js)
   currentTempC = data.current_weather.temperature;
+  const code = data.current_weather.weathercode; 
   
   cityNameDisplay.textContent = locationName;
-  descriptionDisplay.textContent = getWeatherDescription(data.current_weather.weathercode);
+  descriptionDisplay.textContent = getWeatherDescription(code);
   
-  // Use our helper to set the temperature and button text correctly
-  updateTemperatureDisplay();
+  const mainIcon = document.querySelector('#current-weather-icon');
+  if (mainIcon) {
+    mainIcon.src = getWeatherIcon(code);
+    mainIcon.alt = getWeatherDescription(code);
+  }
 
+  updateTemperatureDisplay();
   renderForecast(data.daily);
   weatherCard.classList.remove('hidden');
 }
@@ -54,7 +58,6 @@ function renderForecast(dailyData) {
     let barWidth = ((tempForMeter + 25) / 150) * 100;
     barWidth = Math.max(1, Math.min(barWidth, 100)); 
 
-    // Get the category name and build the image path
     const category = getWeatherCategory(code);
     const iconPath = getWeatherIcon(code);
 
@@ -91,11 +94,10 @@ function getWeatherIcon(code) {
   return cloudyIcon; // Fallback
 }
 
-export function toggleUnits(data) { // Pass the weather data in here
+export function toggleUnits(data) { 
   currentUnit = currentUnit === 'C' ? 'F' : 'C';
   updateTemperatureDisplay();
   
-  // If we have forecast data stored or passed, re-render it
   if (data && data.daily) {
     renderForecast(data.daily);
   }

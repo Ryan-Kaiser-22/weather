@@ -82,13 +82,20 @@ button#submit-btn:hover {
 
 .weather-card {
   background: var(--card-bg);
-  padding: 30px;
+  padding: 20px;
   border-radius: 15px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.1);
   text-align: center;
   width: 100%;
   max-width: 400px;
   margin: 0 auto;
+  gap: 0;
+}
+
+.city-name, 
+.description, 
+.temperature {
+    margin: 5px 0;         /* Minimal vertical margin */
 }
 
 .temperature {
@@ -140,7 +147,6 @@ button#submit-btn:hover {
   align-items: center;
 }
 
-/* Forecast Detail Styling */
 .day-name {
   font-weight: 600;
   width: 50px;
@@ -201,9 +207,35 @@ button#submit-btn:hover {
   margin-top: 15px;
 }
 
-.weather-icon {
-  width: 50px; /* or your preferred size */
-  height: 50px;
-  border-radius: 8px; /* Your CSS rounding */
-  object-fit: cover;
+.weather-info {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center;    /* Center elements horizontally */
+    justify-content: center;
+    text-align: center;     /* Ensure text inside elements is centered */
+    gap: 10px;              /* Adds consistent spacing between items */
+    margin-top: 20px;
+    margin-bottom: 0;
+}
+
+/* Specific styling for the main icon */
+#current-weather-icon {
+    width: 100px;           /* Larger size for the main display */
+    height: 100px;
+    object-fit: contain;
+    border-radius: 12px;    /* The rounding you mentioned earlier */
+    background-color: #fff; /* Ensures a clean look if icons have transparency */
+    display: block;         /* Removes any inline spacing issues */
+}
+
+/* Optional: Make the temperature look prominent below the icon */
+.temperature {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+/* Ensure the forecast icons stay smaller */
+.forecast-day .weather-icon {
+    width: 40px;
+    height: 40px;
 }
