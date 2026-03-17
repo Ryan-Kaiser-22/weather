@@ -1,27 +1,59 @@
 // src/index.js
 import { searchBtn, searchInput, clearInput } from './modules/dom.js';
-import { getCoordinates, getWeatherData, saveLastCity, getLastCity } from './modules/logic.js'; // Added save/get
+import { getCoordinates, getWeatherData, saveLastCity, getLastCity } from './modules/logic.js';
 import { unitToggleBtn } from './modules/dom.js';
 import { toggleUnits, renderWeather } from './modules/ui.js';
 import './assets/styles/main.css';
 
-//Initial load state
+let lastFetchedData = null;
+
+// Initial load state
 window.addEventListener('DOMContentLoaded', async () => {
   const lastCity = getLastCity();
   if (lastCity) {
-    performSearch(lastCity);
+    // No need to sanitize here as it was sanitized before saving
+    performSearch(lastCity, false); 
   }
 });
 
-let lastFetchedData = null;
+searchInput.addEventListener('input', (e) => {
+    const cursorPosition = e.target.selectionStart;
+    let value = e.target.value;
 
-async function performSearch(city) {
+    // Capitalize the first letter of each word
+    const formattedValue = value
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+
+    e.target.value = formattedValue;
+
+    // Restore cursor position so it doesn't jump to the end
+    e.target.setSelectionRange(cursorPosition, cursorPosition);
+});
+
+/**
+ * @param {string} city 
+ * @param {boolean} shouldSave - Whether to write to localStorage
+ */
+async function performSearch(city, shouldSave = true) {
+  // 1. Sanitize the input
+  const cleanCity = sanitizeCityInput(city);
+  if (!cleanCity) return;
+
   try {
-    const locationData = await getCoordinates(city);
+    const locationData = await getCoordinates(cleanCity);
     if (locationData) {
       const weatherData = await getWeatherData(locationData.latitude, locationData.longitude);
       lastFetchedData = weatherData;
+      
+      // Render using the formal name from geocoding API
       renderWeather(weatherData, locationData.fullName);
+
+      // 2. Save the clean version
+      if (shouldSave) {
+        saveLastCity(cleanCity);
+      }
     }
   } catch (error) {
     console.error("Search error:", error);
@@ -31,12 +63,26 @@ async function performSearch(city) {
 searchBtn.addEventListener('click', async (e) => {
   e.preventDefault();
   const city = searchInput.value;
-  if (!city) return;
   
+  // Pass to performSearch which handles the cleaning
   await performSearch(city);
   clearInput();
 });
 
 unitToggleBtn.addEventListener('click', () => {
-  toggleUnits(lastFetchedData);
+  if (lastFetchedData) {
+    toggleUnits(lastFetchedData);
+  }
 });
+
+// Helper for cleaning
+function sanitizeCityInput(input) {
+  return input
+    .trim()
+    .replace(/[^a-zA-Z\s-]/g, '')
+    .toLowerCase()
+    .split(' ')
+    .filter(word => word !== '')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}

@@ -1,4 +1,14 @@
 // logic.js
+export function sanitizeCityInput(input) {
+
+  const cleanInput = input.trim().replace(/[^a-zA-Z\s-]/g, '');
+
+  return cleanInput
+    .toLowerCase()
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
 
 export async function getCoordinates(cityName) {
   try {
