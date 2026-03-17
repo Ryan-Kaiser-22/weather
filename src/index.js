@@ -2,16 +2,15 @@
 import { searchBtn, searchInput, clearInput } from './modules/dom.js';
 import { getCoordinates, getWeatherData, saveLastCity, getLastCity } from './modules/logic.js';
 import { unitToggleBtn } from './modules/dom.js';
-import { toggleUnits, renderWeather } from './modules/ui.js';
+import { toggleLoading, toggleUnits, renderWeather } from './modules/ui.js';
 import './assets/styles/main.css';
 
 let lastFetchedData = null;
 
 window.addEventListener('DOMContentLoaded', async () => {
   const lastCity = getLastCity();
-  if (lastCity) {
-    performSearch(lastCity, false); 
-  }
+  const initialCity = lastCity || "Los Angeles";
+  performSearch(initialCity, false);
 });
 
 searchInput.addEventListener('input', (e) => {
@@ -35,6 +34,7 @@ async function performSearch(city, shouldSave = true) {
   if (!cleanCity) return;
 
   try {
+    toggleLoading(true);
     const locationData = await getCoordinates(cleanCity);
     if (locationData) {
       const weatherData = await getWeatherData(locationData.latitude, locationData.longitude);
@@ -46,6 +46,8 @@ async function performSearch(city, shouldSave = true) {
     }
   } catch (error) {
     console.error("Search error:", error);
+  } finally {
+    toggleLoading(false);
   }
 }
 

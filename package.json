@@ -6,6 +6,8 @@
   "scripts": {
     "start": "webpack serve",
     "build": "webpack --mode production",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "watch": "webpack --watch"
   },
   "keywords": [],
@@ -13,6 +15,7 @@
   "license": "ISC",
   "devDependencies": {
     "css-loader": "^7.1.0",
+    "gh-pages": "^6.3.0",
     "html-webpack-plugin": "^5.6.0",
     "style-loader": "^4.0.0",
     "webpack": "^5.91.0",
