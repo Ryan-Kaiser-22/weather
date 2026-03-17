@@ -84,14 +84,19 @@ function renderForecast(dailyData) {
 }
 
 function getWeatherIcon(code) {
-  if (code === 0) return clearIcon;
-  if (code >= 1 && code <= 3) return cloudyIcon;
-  if (code === 45 || code === 48) return fogIcon;
-  if (code >= 51 && code <= 55) return drizzleIcon;
-  if (code >= 61 && code <= 65 || code >= 80 && code <= 82) return rainIcon;
-  if (code >= 71 && code <= 77) return snowIcon;
-  if (code >= 95) return thunderIcon;
-  return cloudyIcon; // Fallback
+  const category = getWeatherCategory(code);
+  
+  const iconMap = {
+    'clear': clearIcon,
+    'cloudy': cloudyIcon,
+    'fog': fogIcon,
+    'drizzle': drizzleIcon,
+    'rain': rainIcon,
+    'snow': snowIcon,
+    'thunderstorm': thunderIcon
+  };
+
+  return iconMap[category] || cloudyIcon;
 }
 
 export function toggleUnits(data) { 
@@ -111,8 +116,6 @@ function updateTemperatureDisplay() {
     : (currentTempC * 9/5) + 32;
 
   tempDisplay.textContent = `${Math.round(displayValue)}°${currentUnit}`;
-  
-  // Fixed: Now isCelsius is defined and can be used here
   unitToggleBtn.textContent = `Switch to °${isCelsius ? 'F' : 'C'}`;
 }
 
@@ -150,5 +153,5 @@ function getWeatherCategory(code) {
   if (code >= 61 && code <= 65 || code >= 80 && code <= 82) return 'rain';
   if (code >= 71 && code <= 77) return 'snow';
   if (code >= 95) return 'thunderstorm';
-  return 'cloudy'; // Fallback
+  return 'cloudy'; 
 }

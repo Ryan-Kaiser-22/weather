@@ -21,7 +21,6 @@ export async function getCoordinates(cityName) {
       throw new Error("City not found");
     }
 
-    // Extract lat, lon, and the formal name for the UI
     const { latitude, longitude, name, admin1, country } = data.results[0];
     return { latitude, longitude, fullName: `${name}, ${admin1 || country}` };
   } catch (error) {

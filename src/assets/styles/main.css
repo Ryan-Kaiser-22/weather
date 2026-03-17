@@ -7,7 +7,6 @@
   --secondary-text: #718096;
 }
 
-/* Base Layout */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: var(--primary-bg);
@@ -38,12 +37,11 @@ footer {
   width: 100%;
   text-align: center;
   padding: 20px 0;
-  margin-top: auto; /* A "safety" push to ensure it stays down */
+  margin-top: auto; 
   font-size: 0.8rem;
   color: var(--secondary-text);
 }
 
-/* Search Bar */
 #search-form {
   display: flex;
   gap: 10px;
@@ -95,7 +93,7 @@ button#submit-btn:hover {
 .city-name, 
 .description, 
 .temperature {
-    margin: 5px 0;         /* Minimal vertical margin */
+    margin: 5px 0;       
 }
 
 .temperature {
@@ -209,32 +207,29 @@ button#submit-btn:hover {
 
 .weather-info {
     display: flex;
-    flex-direction: column; /* Stack elements vertically */
-    align-items: center;    /* Center elements horizontally */
+    flex-direction: column;
+    align-items: center;   
     justify-content: center;
-    text-align: center;     /* Ensure text inside elements is centered */
-    gap: 10px;              /* Adds consistent spacing between items */
+    text-align: center;     
+    gap: 10px;             
     margin-top: 20px;
     margin-bottom: 0;
 }
 
-/* Specific styling for the main icon */
 #current-weather-icon {
-    width: 100px;           /* Larger size for the main display */
+    width: 100px;         
     height: 100px;
     object-fit: contain;
-    border-radius: 12px;    /* The rounding you mentioned earlier */
-    background-color: #fff; /* Ensures a clean look if icons have transparency */
-    display: block;         /* Removes any inline spacing issues */
+    border-radius: 12px;   
+    background-color: #fff; 
+    display: block;       
 }
 
-/* Optional: Make the temperature look prominent below the icon */
 .temperature {
     font-size: 3rem;
     font-weight: bold;
 }
 
-/* Ensure the forecast icons stay smaller */
 .forecast-day .weather-icon {
     width: 40px;
     height: 40px;
