@@ -7,6 +7,19 @@
   --secondary-text: #718096;
 }
 
+* {
+  box-sizing: border-box; 
+  margin: 0;
+  padding: 0;
+}
+
+body, html {
+  width: 100%;
+  overflow-x: hidden; 
+  display: flex;
+  flex-direction: column;
+}
+
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: var(--primary-bg);
