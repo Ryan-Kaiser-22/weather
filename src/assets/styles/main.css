@@ -284,6 +284,7 @@ button#submit-btn:hover {
 .forecast-day .weather-icon {
     width: 40px;
     height: 40px;
+    border-radius: 12px;
 }
 
 
