@@ -1,4 +1,4 @@
-// logic.js
+
 export function sanitizeCityInput(input) {
 
   const cleanInput = input.trim().replace(/[^a-zA-Z\s-]/g, '');

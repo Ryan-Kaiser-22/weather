@@ -1,4 +1,4 @@
-// src/modules/ui.js
+
 import { cityNameDisplay, tempDisplay, descriptionDisplay, weatherCard, unitToggleBtn, forecastContainer } from './dom.js';
 import clearIcon from '../assets/images/clear.png';
 import cloudyIcon from '../assets/images/cloudy.png';
