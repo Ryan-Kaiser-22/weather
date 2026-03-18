@@ -29,7 +29,6 @@ body {
   align-items: center;
   min-height: 100vh;
   margin: 0;
-  padding: 20px;
 }
 
 header {
@@ -58,13 +57,16 @@ footer {
 #search-form {
   display: flex;
   gap: 10px;
+  width: 100%;
+  max-width: 400px;
 }
 
 input#city-search {
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;
-  width: 250px;
+  flex: 1;
+  min-width: 0;
 }
 
 button#submit-btn {
