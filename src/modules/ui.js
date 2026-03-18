@@ -7,6 +7,7 @@ import drizzleIcon from '../assets/images/drizzle.png';
 import rainIcon from '../assets/images/rain.png';
 import snowIcon from '../assets/images/snow.png';
 import thunderIcon from '../assets/images/thunderstorm.png';
+import { handleCitySelection } from '../index.js';
 
 const loader = document.querySelector('#loading-spinner');
 
@@ -21,6 +22,31 @@ export function toggleLoading(isVisible) {
 
 let currentUnit = 'F';
 let currentTempC = 0; 
+
+export function renderCityDropdown(cities) {
+  const dropdown = document.getElementById('city-dropdown');
+  dropdown.innerHTML = '';
+  dropdown.classList.remove('hidden');
+
+  cities.forEach(city => {
+    const option = document.createElement('div');
+    option.className = 'city-option';
+    option.textContent = `${city.name}, ${city.admin1 || ''} (${city.country})`;
+    
+    option.addEventListener('click', () => {
+      selectCity(city);
+    });
+    
+    dropdown.appendChild(option);
+  });
+}
+
+export function selectCity(city) {
+  document.getElementById('city-dropdown').classList.add('hidden');
+  document.getElementById('city-search').value = city.name;
+  
+  handleCitySelection(city);
+}
 
 export function renderWeather(data, locationName) {
   currentTempC = data.current_weather.temperature;

@@ -13,7 +13,7 @@ export function sanitizeCityInput(input) {
 export async function getCoordinates(cityName) {
   try {
     const response = await fetch(
-      `https://geocoding-api.open-meteo.com/v1/search?name=${cityName}&count=1&language=en&format=json`
+      `https://geocoding-api.open-meteo.com/v1/search?name=${cityName}&count=5&language=en&format=json`
     );
     const data = await response.json();
 
@@ -21,8 +21,14 @@ export async function getCoordinates(cityName) {
       throw new Error("City not found");
     }
 
-    const { latitude, longitude, name, admin1, country } = data.results[0];
-    return { latitude, longitude, fullName: `${name}, ${admin1 || country}` };
+    return data.results.map(city => ({
+      latitude: city.latitude,
+      longitude: city.longitude,
+      name: city.name,
+      admin1: city.admin1, 
+      country: city.country,
+      id: city.id 
+    }));
   } catch (error) {
     console.error("Geocoding error:", error);
     return null;

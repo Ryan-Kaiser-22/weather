@@ -2,7 +2,7 @@
 import { searchBtn, searchInput, clearInput } from './modules/dom.js';
 import { getCoordinates, getWeatherData, saveLastCity, getLastCity } from './modules/logic.js';
 import { unitToggleBtn } from './modules/dom.js';
-import { toggleLoading, toggleUnits, renderWeather } from './modules/ui.js';
+import { renderCityDropdown, selectCity, toggleLoading, toggleUnits, renderWeather } from './modules/ui.js';
 import './assets/styles/main.css';
 
 let lastFetchedData = null;
@@ -54,10 +54,43 @@ async function performSearch(city, shouldSave = true) {
 searchBtn.addEventListener('click', async (e) => {
   e.preventDefault();
   const city = searchInput.value;
+  const cleanCity = sanitizeCityInput(city);
   
-  await performSearch(city);
-  clearInput();
+  if (!cleanCity) return;
+
+  try {
+    toggleLoading(true);
+    const cities = await getCoordinates(cleanCity); 
+    
+    if (cities && cities.length > 0) {
+      if (cities.length === 1) {
+        handleCitySelection(cities[0]);
+      } else {
+        renderCityDropdown(cities);
+        toggleLoading(false); 
+      }
+    }
+  } catch (error) {
+    console.error("Search error:", error);
+    toggleLoading(false);
+  }
 });
+
+export async function handleCitySelection(city) {
+  try {
+    toggleLoading(true);
+    const weatherData = await getWeatherData(city.latitude, city.longitude);
+    lastFetchedData = weatherData;
+    const fullName = `${city.name}, ${city.admin1 || city.country}`;
+    renderWeather(weatherData, fullName);
+    saveLastCity(city.name);
+    clearInput();
+  } catch (error) {
+    console.error("Weather fetch error:", error);
+  } finally {
+    toggleLoading(false);
+  }
+}
 
 unitToggleBtn.addEventListener('click', () => {
   if (lastFetchedData) {
@@ -75,3 +108,12 @@ function sanitizeCityInput(input) {
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 }
+
+document.addEventListener('click', (e) => {
+  const dropdown = document.getElementById('city-dropdown');
+  const searchForm = document.getElementById('search-form');
+  
+  if (!searchForm.contains(e.target)) {
+    dropdown.classList.add('hidden');
+  }
+});
