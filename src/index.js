@@ -43,7 +43,7 @@ searchBtn.addEventListener('click', async (e) => {
         renderCityDropdown(cities);
       }
     } else {
-        alert("City not found. Please try again.");
+        alert("City not found, please type full city name");
     }
   } catch (error) {
     console.error("Search error:", error);

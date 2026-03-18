@@ -4,9 +4,9 @@ export function sanitizeCityInput(input) {
   const cleanInput = input.trim().replace(/[^a-zA-Z\s-]/g, '');
 
   return cleanInput
-    .toLowerCase()
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .split(/\s+/) 
+    .filter(word => word.length > 0)
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(' ');
 }
 
@@ -18,7 +18,7 @@ export async function getCoordinates(cityName) {
     const data = await response.json();
 
     if (!data.results || data.results.length === 0) {
-      throw new Error("City not found");
+      throw new Error("City not found, please type full city name");
     }
 
     return data.results.map(city => ({
