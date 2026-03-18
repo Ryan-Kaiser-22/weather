@@ -11,16 +11,9 @@ window.addEventListener('DOMContentLoaded', async () => {
   if (lastCity && typeof lastCity === 'object' && lastCity.latitude) {
     handleCitySelection(lastCity);
   } else {
-    try {
-      toggleLoading(true);
-      const defaultCities = await getCoordinates("Los Angeles");
-      if (defaultCities && defaultCities.length > 0) {
-        handleCitySelection(defaultCities[0]);
-      }
-    } catch (err) {
-      console.error("Default load failed", err);
-    } finally {
-      toggleLoading(false);
+    const defaultCities = await getCoordinates("Los Angeles");
+    if (defaultCities && defaultCities.length > 0) {
+      handleCitySelection(defaultCities[0]);
     }
   }
 });
