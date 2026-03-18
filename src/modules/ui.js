@@ -7,14 +7,12 @@ import drizzleIcon from '../assets/images/drizzle.png';
 import rainIcon from '../assets/images/rain.png';
 import snowIcon from '../assets/images/snow.png';
 import thunderIcon from '../assets/images/thunderstorm.png';
-import { handleCitySelection } from '../index.js';
 
 const loader = document.querySelector('#loading-spinner');
 
 export function toggleLoading(isVisible) {
   if (isVisible) {
-    loader.classList.remove('hidden');
-    weatherCard.classList.add('hidden'); 
+    loader.classList.remove('hidden'); 
   } else {
     loader.classList.add('hidden');
   }
@@ -34,7 +32,9 @@ export function renderCityDropdown(cities) {
     option.textContent = `${city.name}, ${city.admin1 || ''} (${city.country})`;
     
     option.addEventListener('click', () => {
-      selectCity(city);
+      const event = new CustomEvent('city-selected', { detail: city });
+      document.dispatchEvent(event);
+      dropdown.classList.add('hidden');
     });
     
     dropdown.appendChild(option);
@@ -45,7 +45,8 @@ export function selectCity(city) {
   document.getElementById('city-dropdown').classList.add('hidden');
   document.getElementById('city-search').value = city.name;
   
-  handleCitySelection(city);
+  const event = new CustomEvent('city-selected', { detail: city });
+  document.dispatchEvent(event);
 }
 
 export function renderWeather(data, locationName) {

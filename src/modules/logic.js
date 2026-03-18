@@ -48,10 +48,11 @@ export async function getWeatherData(lat, lon) {
   }
 }
 
-export function saveLastCity(cityName) {
-  localStorage.setItem('lastWeatherCity', cityName);
+export function saveLastCity(cityObject) {
+  localStorage.setItem('lastWeatherCity', JSON.stringify(cityObject));
 }
 
 export function getLastCity() {
-  return localStorage.getItem('lastWeatherCity');
+  const saved = localStorage.getItem('lastWeatherCity');
+  return saved ? JSON.parse(saved) : null;
 }

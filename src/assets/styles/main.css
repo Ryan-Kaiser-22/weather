@@ -9,7 +9,6 @@
 
 * {
   box-sizing: border-box; 
-  margin: 0;
   padding: 0;
 }
 
@@ -31,11 +30,9 @@ body {
   margin: 0;
 }
 
-
-
 header {
   text-align: center;
-  margin-bottom: 30px;
+  margin: 20px;
 }
 
 main {
@@ -134,6 +131,14 @@ button#submit-btn:hover {
   max-width: 400px;
   margin: 0 auto;
   gap: 0;
+  z-index: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.weather-card > * {
+  position: relative;
+  z-index: 2;
 }
 
 .city-name, 
@@ -279,4 +284,43 @@ button#submit-btn:hover {
 .forecast-day .weather-icon {
     width: 40px;
     height: 40px;
+}
+
+
+.weather-card.bg-rain::before {
+  content: "";
+  position: absolute;
+  top: -100%;
+  left: 0;
+  width: 100%;
+  height: 200%;
+  background-image: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+  background-size: 3px 60px;
+  background-repeat: repeat;
+  animation: rain-drop 1s linear infinite;
+  pointer-events: none; 
+}
+
+@keyframes rain-drop {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(50%); }
+}
+
+.weather-card.bg-cloudy::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 200%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 60%);
+  background-size: 200px 100px;
+  background-repeat: repeat-x;
+  animation: cloud-drift 20s linear infinite;
+  opacity: 0.6;
+}
+
+@keyframes cloud-drift {
+  from { transform: translateX(0); }
+  to { transform: translateX(50%); }
 }
